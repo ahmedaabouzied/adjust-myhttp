@@ -90,7 +90,7 @@ func TestCallURL(t *testing.T) {
 
 func BenchmarkProcessAll(b *testing.B) {
 	URLs := []string{"google.com", "facebook.com", "reddit.com", "youtube.com", "twitter.com"}
-	b.Run("Benchmark limit = 1", func(b *testing.B) {
+	b.Run("Benchmark single routine", func(b *testing.B) {
 		limit := 1
 		processAll(limit, URLs)
 	})

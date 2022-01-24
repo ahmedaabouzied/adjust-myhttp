@@ -22,9 +22,8 @@ type helper struct {
 	wg   sync.WaitGroup
 }
 
-func callURL(URL string, h *helper) {
+func callURL(URL string, h *helper, client *http.Client) {
 	defer h.wg.Done()
-	client := http.Client{}
 	res := result{}
 	reqURL, err := url.Parse(URL)
 	if err != nil {
@@ -58,7 +57,8 @@ func callURL(URL string, h *helper) {
 
 func worker(h *helper) {
 	for URL := range h.URLc {
-		callURL(URL, h)
+		client := http.Client{}
+		callURL(URL, h, &client)
 	}
 }
 

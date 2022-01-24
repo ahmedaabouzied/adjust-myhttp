@@ -56,7 +56,7 @@ func callURL(URL string, h *helper) {
 	h.resc <- res
 }
 
-func worker(id int, h *helper) {
+func worker(h *helper) {
 	for URL := range h.URLc {
 		callURL(URL, h)
 	}
@@ -87,7 +87,7 @@ func processAll(limit int, URLs []string) {
 	}
 
 	for i := 0; i < workersCount; i++ {
-		go worker(i, h)
+		go worker(h)
 	}
 
 	for _, URL := range URLs {

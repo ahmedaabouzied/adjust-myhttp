@@ -62,10 +62,19 @@ func worker(id int, h *helper) {
 	}
 }
 
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
 func processAll(limit int, URLs []string) {
 	count := len(URLs)
+	workersCount := min(limit, count)
 	fmt.Printf("Limit = %d \n", limit)
 	fmt.Printf("URL count = %d \n", count)
+	fmt.Printf("Workers %d \n", workersCount)
 	errc := make(chan error, limit)
 	resc := make(chan result, limit)
 	URLc := make(chan string, count)
@@ -77,7 +86,7 @@ func processAll(limit int, URLs []string) {
 		wg:   wg,
 	}
 
-	for i := 0; i < limit; i++ {
+	for i := 0; i < workersCount; i++ {
 		go worker(i, h)
 	}
 
